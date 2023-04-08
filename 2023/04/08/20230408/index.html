@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang='zh-TW'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Meta Segment Anything - Yifor Note</title>
+
+  
+    <meta name="description" content="本文介紹 Meta FAIR 新出的套件 segment-anything 的實作方法 &amp; 結果 Demo 網站 https:&#x2F;&#x2F;segment-anything.com&#x2F;https:&#x2F;&#x2F;segment-anything.com&#x2F; DescriptionGoal 自動化 segment 任務 (zero shot), 並可以根據 prompt (point, box, text) 進行調整">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Meta Segment Anything">
+<meta property="og:url" content="http://example.com/2023/04/08/20230408/index.html">
+<meta property="og:site_name" content="Yifor Note">
+<meta property="og:description" content="本文介紹 Meta FAIR 新出的套件 segment-anything 的實作方法 &amp; 結果 Demo 網站 https:&#x2F;&#x2F;segment-anything.com&#x2F;https:&#x2F;&#x2F;segment-anything.com&#x2F; DescriptionGoal 自動化 segment 任務 (zero shot), 並可以根據 prompt (point, box, text) 進行調整">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/Pjrk8PS.png">
+<meta property="og:image" content="https://i.imgur.com/Wl9p5lS.png">
+<meta property="og:image" content="https://i.imgur.com/FQn4i9M.png">
+<meta property="og:image" content="https://i.imgur.com/ODkHdr7.png">
+<meta property="og:image" content="https://i.imgur.com/HqP1hQY.png">
+<meta property="og:image" content="https://i.imgur.com/r4Y6y3X.png">
+<meta property="og:image" content="https://i.imgur.com/OrkdVjN.png">
+<meta property="article:published_time" content="2023-04-08T04:00:00.000Z">
+<meta property="article:modified_time" content="2023-04-08T13:20:11.784Z">
+<meta property="article:author" content="Howard Chang">
+<meta property="article:tag" content="practice">
+<meta property="article:tag" content="Meta">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://i.imgur.com/Pjrk8PS.png">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://i.imgur.com/kcnNk0y.png">
+  
+
+  
+
+  
+
+
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://i.imgur.com/bIQxvby.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Yifor Note</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">Blog</a><a class="nav-item" href="/wiki/">Wiki</a><a class="nav-item" href="/notes/">筆記</a><a class="nav-item" href="/about/">關於</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">沒有找到內容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Meta Segment Anything</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description"><span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Goal"><span class="toc-text">Goal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Data"><span class="toc-text">Data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Result"><span class="toc-text">Result</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Model-Architecture"><span class="toc-text">Model Architecture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Practice"><span class="toc-text">Practice</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-1-%E6%A8%A1%E5%9E%8B%E4%B8%8B%E8%BC%89"><span class="toc-text">Step 1: 模型下載</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-2-%E8%AE%80%E5%85%A5%E6%AC%8A%E9%87%8D"><span class="toc-text">Step 2: 讀入權重</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-3-%E8%BC%89%E5%85%A5%E5%9C%96%E7%89%87"><span class="toc-text">Step 3: 載入圖片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-4-%E8%A8%AD%E5%AE%9A%E6%A8%A1%E5%9E%8B%E5%8F%83%E6%95%B8-amp-%E9%A0%90%E6%B8%AC"><span class="toc-text">Step 4: 設定模型參數 &amp; 預測</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-5-%E9%A1%AF%E7%A4%BA%E5%88%86%E5%89%B2%E7%B5%90%E6%9E%9C"><span class="toc-text">Step 5: 顯示分割結果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-6-%E5%8E%BB%E8%83%8C%E7%B5%90%E6%9E%9C"><span class="toc-text">Step 6: 去背結果</span></a></li></ol></li></ol></div></div></widget>
+
+
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/yifor01" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn-icons-png.flaticon.com/128/3291/3291695.png"/></a><a class="social" href="https://www.linkedin.com/in/chia-hao-chang-yifor" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn-icons-png.flaticon.com/512/174/174857.png"/></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">首頁</a><span class="sep"></span><a class="cap breadcrumb" href="/">網誌</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/CV/">CV</a></div><div id="post-meta">發布於&nbsp;<time datetime="2023-04-08T04:00:00.000Z">2023-04-08</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>Meta Segment Anything</span></h1>
+<p>本文介紹 Meta FAIR 新出的套件 <code>segment-anything</code> 的實作方法 &amp; 結果</p>
+<p>Demo 網站 <div class="tag-plugin link dis-select"><a class="link-card plain" title="" href="https://segment-anything.com/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="title,icon"><div class="left"><span class="title">https://segment-anything.com/</span><span class="cap link fs12">https://segment-anything.com/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div></p>
+<h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><h3 id="Goal"><a href="#Goal" class="headerlink" title="Goal"></a>Goal</h3><ul>
+<li>自動化 segment 任務 (zero shot), 並可以根據 prompt (point, box, text) 進行調整</li>
+</ul>
+<h3 id="Data"><a href="#Data" class="headerlink" title="Data"></a>Data</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://ai.facebook.com/datasets/segment-anything/">SA-1B</a>: 高達 11M 張圖片, 1.1B 個 mask 結果 (由 SAM 生成)</li>
+</ul>
+<h3 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h3><p>僅實驗自動化切割功能, 文字 prompt 功能未釋出</p>
+<ul>
+<li>插畫自動切割<ul>
+<li>原圖  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/Pjrk8PS.png" alt="圖片來源: midjourney 產生" style="width:500px;"/></div><div class="image-meta"><span class="image-caption center">圖片來源: midjourney 產生</span></div></div></li>
+<li>Segment 結果<br>  部分星星沒有被切割出來是因為有設定 threshold 來避免切出太小的物件, 共 109 個區域  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/Wl9p5lS.png" style="width:500px;"/></div></div></li>
+<li>Segment 後處理<br>  挑選最大面積的 6 個物件顯示  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/FQn4i9M.png" style="width:500px;"/></div></div></li>
+</ul>
+</li>
+<li>Wafer Map 自動切割<ul>
+<li>原圖  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/ODkHdr7.png" alt="圖片來源: Development of High Power Green Light Emitting Diode Chips paper" style="width:500px;"/></div><div class="image-meta"><span class="image-caption center">圖片來源: Development of High Power Green Light Emitting Diode Chips paper</span></div></div></li>
+<li>Segment 結果<br>  部分文字沒有被切割出來是因為有設定 threshold 來避免切出太小的物件, 共 147 個區域  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/HqP1hQY.png" style="width:500px;"/></div></div></li>
+<li>Segment 後處理<br>  挑選最大面積的 4 個物件顯示  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/r4Y6y3X.png" style="width:500px;"/></div></div></li>
+</ul>
+</li>
+</ul>
+<h2 id="Model-Architecture"><a href="#Model-Architecture" class="headerlink" title="Model Architecture"></a>Model Architecture</h2><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/OrkdVjN.png" alt="圖片來源: segment-anything paper"/></div><div class="image-meta"><span class="image-caption center">圖片來源: segment-anything paper</span></div></div>
+<h2 id="Practice"><a href="#Practice" class="headerlink" title="Practice"></a>Practice</h2><h3 id="Step-1-模型下載"><a href="#Step-1-模型下載" class="headerlink" title="Step 1: 模型下載"></a>Step 1: 模型下載</h3><p>SAM model 下載 <a href="(https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth)">download</a>, 放入 <code>model</code> 資料夾中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> model</span><br><span class="line"><span class="built_in">cd</span> model</span><br><span class="line">wget https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step-2-讀入權重"><a href="#Step-2-讀入權重" class="headerlink" title="Step 2: 讀入權重"></a>Step 2: 讀入權重</h3><p>import 相關套件 &amp; load model weight</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> segment_anything <span class="keyword">import</span> sam_model_registry, SamAutomaticMaskGenerator, SamPredictor</span><br><span class="line"></span><br><span class="line">sam_checkpoint = <span class="string">&quot;./model/sam_vit_h_4b8939.pth&quot;</span></span><br><span class="line">model_type = <span class="string">&quot;vit_h&quot;</span></span><br><span class="line"></span><br><span class="line">device = <span class="string">&quot;cuda&quot;</span></span><br><span class="line">sam = sam_model_registry[model_type](checkpoint=sam_checkpoint)</span><br><span class="line">sam.to(device=device)</span><br></pre></td></tr></table></figure>
+<h3 id="Step-3-載入圖片"><a href="#Step-3-載入圖片" class="headerlink" title="Step 3: 載入圖片"></a>Step 3: 載入圖片</h3><p>用 cv2 載入圖片並轉為 array 形式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line">image = cv2.imread(<span class="string">&#x27;./data/test.png&#x27;</span>)</span><br><span class="line">image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)</span><br></pre></td></tr></table></figure>
+<h3 id="Step-4-設定模型參數-amp-預測"><a href="#Step-4-設定模型參數-amp-預測" class="headerlink" title="Step 4: 設定模型參數 &amp; 預測"></a>Step 4: 設定模型參數 &amp; 預測</h3><p>套用 mask 生成器並設定相關參數, 實作後認為 <code>points_per_side</code>, <code>pred_iou_thresh</code> 較為重要。</p>
+<ul>
+<li><code>points_per_side</code> 是控制採樣點的個數, 直接影響到輸出 mask 的質量</li>
+<li><code>pred_iou_thresh</code> 是輸出 mask 機率的 threshold</li>
+</ul>
+<p>輸出結果包含了每個 mask 結果的面積大小, bounding box, mask 座標等等。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mask_generator = SamAutomaticMaskGenerator(</span><br><span class="line">    model=sam,</span><br><span class="line">    points_per_side=<span class="number">32</span>,</span><br><span class="line">    pred_iou_thresh=<span class="number">0.9</span>,</span><br><span class="line">    stability_score_thresh=<span class="number">0.92</span>,</span><br><span class="line">    crop_n_layers=<span class="number">1</span>,</span><br><span class="line">    crop_n_points_downscale_factor=<span class="number">2</span>,</span><br><span class="line">    min_mask_region_area=<span class="number">100</span>,  <span class="comment"># Requires open-cv to run post-processing</span></span><br><span class="line">)</span><br><span class="line">masks2 = mask_generator.generate(image)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step-5-顯示分割結果"><a href="#Step-5-顯示分割結果" class="headerlink" title="Step 5: 顯示分割結果"></a>Step 5: 顯示分割結果</h3><p>依照 mask 面積大小排序對原圖進行 mask 著色</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show_anns</span>(<span class="params">anns</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(anns) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    sorted_anns = <span class="built_in">sorted</span>(anns, key=(<span class="keyword">lambda</span> x: x[<span class="string">&#x27;area&#x27;</span>]), reverse=<span class="literal">True</span>)</span><br><span class="line">    ax = plt.gca()</span><br><span class="line">    ax.set_autoscale_on(<span class="literal">False</span>)</span><br><span class="line">    <span class="keyword">for</span> ann <span class="keyword">in</span> sorted_anns:</span><br><span class="line">        m = ann[<span class="string">&#x27;segmentation&#x27;</span>]</span><br><span class="line">        img = np.ones((m.shape[<span class="number">0</span>], m.shape[<span class="number">1</span>], <span class="number">3</span>))</span><br><span class="line">        color_mask = np.random.random((<span class="number">1</span>, <span class="number">3</span>)).tolist()[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">            img[:,:,i] = color_mask[i]</span><br><span class="line">        ax.imshow(np.dstack((img, m*<span class="number">0.35</span>)))</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">15</span>,<span class="number">15</span>))</span><br><span class="line">plt.imshow(image)</span><br><span class="line">show_anns(masks2)</span><br><span class="line">plt.axis(<span class="string">&#x27;off&#x27;</span>)</span><br><span class="line">plt.show() </span><br></pre></td></tr></table></figure>
+
+<h3 id="Step-6-去背結果"><a href="#Step-6-去背結果" class="headerlink" title="Step 6: 去背結果"></a>Step 6: 去背結果</h3><p>建立一個 mask matrix 在乘上原本圖片 matrix 後, 即可得到去背的圖片</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">final_mask = np.zeros(image.shape[:<span class="number">2</span>],dtype=<span class="built_in">bool</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(masks2)):</span><br><span class="line">    final_mask +=masks2[i][<span class="string">&#x27;segmentation&#x27;</span>]</span><br><span class="line"></span><br><span class="line">mask_image = image.copy()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">    mask_image[:,:,i] *=final_mask</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">15</span>,<span class="number">15</span>))</span><br><span class="line">plt.imshow(mask_image)</span><br><span class="line">plt.axis(<span class="string">&#x27;off&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">較早文章</div><a href="/2023/04/07/20230407/">LLaMA 套件踩坑</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      參與討論
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="yifor01/blog-comments" data-repo-id="R_kgDOJUQBwQ" data-category="General" data-category-id="DIC_kwDOJUQBwc4CVoZ6" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="dark_dimmed" data-lang="zh-TW" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><center>
+</br>
+</br>
+  <!--不蒜子計數器-->
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <!--添加一個訪問量-->
+  <span>
+  本"<span style="color: rgb(13, 109, 252); font-weight: bold;">頁面</ a></span>"訪問 <span id="busuanzi_value_page_pv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 次
+  | 👀總訪問 <span id="busuanzi_value_site_pv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 次
+  | 👀總訪客 <span id="busuanzi_value_site_uv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 人
+  </span>
+  </br>
+  </br>
+  <script type="text/javascript">
+  function show_runtime() {
+      window.setTimeout("show_runtime()", 1000);
+      X = new Date("4/07/2023 00:00:00");
+      Y = new Date();
+      T = (Y.getTime() - X.getTime());
+      M = 24 * 60 * 60 * 1000;
+      a = T / M;
+      A = Math.floor(a);
+      b = (a - A) * 24;
+      B = Math.floor(b);
+      c = (b - B) * 60;
+      C = Math.floor((b - B) * 60);
+      D = Math.floor((c - C) * 60);
+      runtime_span.innerHTML = "⏱️本站已運行 " + A + "天 " + B + "小時 " + C + "分 " + D + "秒"
+  }
+  show_runtime();
+  </script>
+  <span id="runtime_span"></span>
+</center>
+
+<hr>
+<p>本站由 <a href="/">@yifor</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主題創建。<br>本博客所有文章除特別聲明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 許可協議，轉載請注明出處。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '剛剛',
+      min: '分鐘前',
+      hour: '小時前',
+      day: '天前',
+      month: '個月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
