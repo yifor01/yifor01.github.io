@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://i.imgur.com/r4Y6y3X.png">
 <meta property="og:image" content="https://i.imgur.com/OrkdVjN.png">
 <meta property="article:published_time" content="2023-04-08T04:00:00.000Z">
-<meta property="article:modified_time" content="2023-04-08T13:20:11.784Z">
+<meta property="article:modified_time" content="2023-04-08T13:43:49.347Z">
 <meta property="article:author" content="Howard Chang">
 <meta property="article:tag" content="practice">
 <meta property="article:tag" content="Meta">
@@ -82,7 +82,7 @@
 
 <header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://i.imgur.com/bIQxvby.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Yifor Note</div></a></div>
 
-<nav class="menu dis-select"><a class="nav-item active" href="/">Blog</a><a class="nav-item" href="/wiki/">Wiki</a><a class="nav-item" href="/notes/">筆記</a><a class="nav-item" href="/about/">關於</a></nav>
+<nav class="menu dis-select"><a class="nav-item active" href="/">Blog</a><a class="nav-item" href="/notes/">項目</a><a class="nav-item" href="/about/">關於</a></nav>
 </header>
 
 
@@ -120,19 +120,19 @@
 <h3 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h3><p>僅實驗自動化切割功能, 文字 prompt 功能未釋出</p>
 <ul>
 <li>插畫自動切割<ul>
-<li>原圖  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/Pjrk8PS.png" alt="圖片來源: midjourney 產生" style="width:500px;"/></div><div class="image-meta"><span class="image-caption center">圖片來源: midjourney 產生</span></div></div></li>
-<li>Segment 結果<br>  部分星星沒有被切割出來是因為有設定 threshold 來避免切出太小的物件, 共 109 個區域  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/Wl9p5lS.png" style="width:500px;"/></div></div></li>
-<li>Segment 後處理<br>  挑選最大面積的 6 個物件顯示  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/FQn4i9M.png" style="width:500px;"/></div></div></li>
+<li>原圖  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/Pjrk8PS.png" alt="圖片來源: midjourney 產生" fancybox="true" style="width:500px;"/></div><div class="image-meta"><span class="image-caption center">圖片來源: midjourney 產生</span></div></div></li>
+<li>Segment 結果<br>  部分星星沒有被切割出來是因為有設定 threshold 來避免切出太小的物件, 共 109 個區域  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/Wl9p5lS.png" fancybox="true" style="width:500px;"/></div></div></li>
+<li>Segment 後處理<br>  挑選最大面積的 6 個物件顯示  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/FQn4i9M.png" fancybox="true" style="width:500px;"/></div></div></li>
 </ul>
 </li>
 <li>Wafer Map 自動切割<ul>
-<li>原圖  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/ODkHdr7.png" alt="圖片來源: Development of High Power Green Light Emitting Diode Chips paper" style="width:500px;"/></div><div class="image-meta"><span class="image-caption center">圖片來源: Development of High Power Green Light Emitting Diode Chips paper</span></div></div></li>
-<li>Segment 結果<br>  部分文字沒有被切割出來是因為有設定 threshold 來避免切出太小的物件, 共 147 個區域  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/HqP1hQY.png" style="width:500px;"/></div></div></li>
-<li>Segment 後處理<br>  挑選最大面積的 4 個物件顯示  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/r4Y6y3X.png" style="width:500px;"/></div></div></li>
+<li>原圖  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/ODkHdr7.png" alt="圖片來源: Development of High Power Green Light Emitting Diode Chips paper" fancybox="true" style="width:500px;"/></div><div class="image-meta"><span class="image-caption center">圖片來源: Development of High Power Green Light Emitting Diode Chips paper</span></div></div></li>
+<li>Segment 結果<br>  部分文字沒有被切割出來是因為有設定 threshold 來避免切出太小的物件, 共 147 個區域  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/HqP1hQY.png" fancybox="true" style="width:500px;"/></div></div></li>
+<li>Segment 後處理<br>  挑選最大面積的 4 個物件顯示  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/r4Y6y3X.png" fancybox="true" style="width:500px;"/></div></div></li>
 </ul>
 </li>
 </ul>
-<h2 id="Model-Architecture"><a href="#Model-Architecture" class="headerlink" title="Model Architecture"></a>Model Architecture</h2><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/OrkdVjN.png" alt="圖片來源: segment-anything paper"/></div><div class="image-meta"><span class="image-caption center">圖片來源: segment-anything paper</span></div></div>
+<h2 id="Model-Architecture"><a href="#Model-Architecture" class="headerlink" title="Model Architecture"></a>Model Architecture</h2><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/OrkdVjN.png" alt="圖片來源: segment-anything paper" fancybox="true"/></div><div class="image-meta"><span class="image-caption center">圖片來源: segment-anything paper</span></div></div>
 <h2 id="Practice"><a href="#Practice" class="headerlink" title="Practice"></a>Practice</h2><h3 id="Step-1-模型下載"><a href="#Step-1-模型下載" class="headerlink" title="Step 1: 模型下載"></a>Step 1: 模型下載</h3><p>SAM model 下載 <a href="(https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth)">download</a>, 放入 <code>model</code> 資料夾中</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> model</span><br><span class="line"><span class="built_in">cd</span> model</span><br><span class="line">wget https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth</span><br></pre></td></tr></table></figure>
 
@@ -194,7 +194,7 @@
 
 <svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
 
-<div id="giscus" data-repo="yifor01/blog-comments" data-repo-id="R_kgDOJUQBwQ" data-category="General" data-category-id="DIC_kwDOJUQBwc4CVoZ6" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="dark_dimmed" data-lang="zh-TW" data-loading="lazy" crossorigin="anonymous"></div>
+<div id="giscus" data-repo="yifor01/blog-comments" data-repo-id="R_kgDOJUQBwQ" data-category="General" data-category-id="DIC_kwDOJUQBwc4CVoZ6" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-TW" data-loading="lazy" crossorigin="anonymous"></div>
 
     </section>
   </div>
@@ -211,7 +211,7 @@
   <span>
   本"<span style="color: rgb(13, 109, 252); font-weight: bold;">頁面</ a></span>"訪問 <span id="busuanzi_value_page_pv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 次
   | 👀總訪問 <span id="busuanzi_value_site_pv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 次
-  | 👀總訪客 <span id="busuanzi_value_site_uv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 人
+  | 🎎總訪客 <span id="busuanzi_value_site_uv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 人
   </span>
   </br>
   </br>
