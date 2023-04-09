@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang='zh-TW'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Deep Natural Language Processing for LinkedIn Search - Yifor Note</title>
+
+  
+    <meta name="description" content="本文為 “Deep Natural Language Processing for LinkedIn Search” (2021.08) 的論文重點摘要 論文全文參考  width&#x3D;400pxhttps:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2108.13300  Description  Goal  討論在搜尋引擎的 5+1 項 NLP 任務實務上的作法 在重視延遲問題的搜尋任務上, 如何導入 BER">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Deep Natural Language Processing for LinkedIn Search">
+<meta property="og:url" content="http://example.com/2023/04/09/20230409/index.html">
+<meta property="og:site_name" content="Yifor Note">
+<meta property="og:description" content="本文為 “Deep Natural Language Processing for LinkedIn Search” (2021.08) 的論文重點摘要 論文全文參考  width&#x3D;400pxhttps:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2108.13300  Description  Goal  討論在搜尋引擎的 5+1 項 NLP 任務實務上的作法 在重視延遲問題的搜尋任務上, 如何導入 BER">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/joByIXv.png">
+<meta property="og:image" content="https://i.imgur.com/O7MnaI1.png">
+<meta property="og:image" content="https://i.imgur.com/IFS3gXd.png">
+<meta property="og:image" content="https://i.imgur.com/cJEECIA.png">
+<meta property="og:image" content="https://i.imgur.com/pKeZvlU.png">
+<meta property="og:image" content="https://i.imgur.com/BG5VXiM.png">
+<meta property="article:published_time" content="2023-04-08T17:41:28.000Z">
+<meta property="article:modified_time" content="2023-04-09T12:35:49.592Z">
+<meta property="article:author" content="Howard Chang">
+<meta property="article:tag" content="paper study">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://i.imgur.com/joByIXv.png">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://i.imgur.com/kcnNk0y.png">
+  
+
+  
+
+  
+
+
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://i.imgur.com/bIQxvby.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Yifor Note</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">Blog</a><a class="nav-item" href="/notes/">項目</a><a class="nav-item" href="/about/">關於</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">沒有找到內容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Deep Natural Language Processing for LinkedIn Search</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#description"><span class="toc-text"> Description</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#goal"><span class="toc-text"> Goal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#search-system-overview"><span class="toc-text"> Search system overview</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E5%A4%A7%E6%90%9C%E5%B0%8B%E4%BB%BB%E5%8B%99"><span class="toc-text"> 六大搜尋任務</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#query-intention-prediction"><span class="toc-text"> Query Intention Prediction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#query-tagging"><span class="toc-text"> Query Tagging</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#document-ranking"><span class="toc-text"> Document Ranking</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#query-auto-completion"><span class="toc-text"> Query Auto Completion</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#query-suggestion"><span class="toc-text"> Query Suggestion</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bert-pretrained"><span class="toc-text"> BERT Pretrained</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#conclusion"><span class="toc-text"> Conclusion</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/yifor01" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn-icons-png.flaticon.com/128/3291/3291695.png"/></a><a class="social" href="https://www.linkedin.com/in/chia-hao-chang-yifor" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn-icons-png.flaticon.com/512/174/174857.png"/></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">首頁</a><span class="sep"></span><a class="cap breadcrumb" href="/">網誌</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/NLP/">NLP</a></div><div id="post-meta">發布於&nbsp;<time datetime="2023-04-08T17:41:28.000Z">2023-04-09</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>Deep Natural Language Processing for LinkedIn Search</span></h1>
+<p>本文為 “Deep Natural Language Processing for LinkedIn Search” (2021.08) 的論文重點摘要<br />
+論文全文參考</p>
+ <div class="tag-plugin link dis-select"><a class="link-card plain" title="width=400px" href="https://arxiv.org/abs/2108.13300" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">width=400px</span><span class="cap link fs12">https://arxiv.org/abs/2108.13300</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+<h2 id="description"><a class="markdownIt-Anchor" href="#description"></a> Description</h2>
+<h3 id="goal"><a class="markdownIt-Anchor" href="#goal"></a> Goal</h3>
+<ul>
+<li>討論在搜尋引擎的 5+1 項 NLP 任務實務上的作法</li>
+<li>在重視延遲問題的搜尋任務上, 如何導入 BERT</li>
+<li>三大挑戰
+<ul>
+<li>延遲性：搜尋引擎最重要的問題之一。</li>
+<li>穩定性：這邊主要是提到 DL overfit 的問題。</li>
+<li>有效性：找出適用各種任務的最佳解法, 可能是 rule base 或 DL model。</li>
+</ul>
+</li>
+</ul>
+<h3 id="search-system-overview"><a class="markdownIt-Anchor" href="#search-system-overview"></a> Search system overview</h3>
+<p>大致流程為:<br />
+User 輸入搜尋句 → 檢查搜尋句完整性 → 判斷搜尋意圖 → 找尋相關候選文章 → 輸出相關候選文章排序</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/joByIXv.png" fancybox="true"/></div></div>
+<h2 id="六大搜尋任務"><a class="markdownIt-Anchor" href="#六大搜尋任務"></a> 六大搜尋任務</h2>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/O7MnaI1.png" alt="六大任務概覽" fancybox="true"/></div><div class="image-meta"><span class="image-caption center">六大任務概覽</span></div></div>
+<h3 id="query-intention-prediction"><a class="markdownIt-Anchor" href="#query-intention-prediction"></a> Query Intention Prediction</h3>
+<ul>
+<li>Goal: 判斷 User 搜尋的目的是屬於哪一個既有標籤分類 (7類)</li>
+<li>NLP task: Text Classification</li>
+<li>Difficulty: 搜尋內容比一般文章來的短造成更嚴重的歧義問題
+<ul>
+<li>Example: <code>michael dell</code> (person names), <code>dell engineer jobs</code> (company)</li>
+</ul>
+</li>
+<li>Solution (short-term)
+<ul>
+<li>Method: 使用 TextCNN 的作法, backbone 使用了 GloVe 作為 embedding, 並結合了手工特徵(用戶行為, 文章統計, search log)</li>
+<li>Finding
+<ul>
+<li>不用手工特徵, 準確度掉了 0.4%</li>
+<li>LSTM 雖然準度有提升 0.2%, 但延遲率較 CNN 增加了 0.5ms</li>
+</ul>
+</li>
+</ul>
+  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/IFS3gXd.png" alt="CNN based query intent prediction" fancybox="true"/></div><div class="image-meta"><span class="image-caption center">CNN based query intent prediction</span></div></div>
+</li>
+<li>Solution (long-term)
+<ul>
+<li>Method: 將 backbone 換成 LiBERT (Linkedin BERT)</li>
+<li>Finding
+<ul>
+<li>準度較 CNN 提升了 3.28%, 但沒有比較延遲率</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="query-tagging"><a class="markdownIt-Anchor" href="#query-tagging"></a> Query Tagging</h3>
+<ul>
+<li>Goal: 抓出 query 中包含的 entity</li>
+<li>NLP task: NER</li>
+<li>Difficulty: entity 有嵌套以及歧異的問題
+<ul>
+<li>Example: <code>research scientist</code> (title), <code>research</code> (skill), <code>scientist</code> (title)</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>Feature: 分為 char based, word based, <em>lexicon base</em></li>
+<li>Method: 使用 semi-markov conditional random f ield (SCRF)</li>
+<li>Finding: 由於 query 本身已經很短了, 還要再從中抽取 entity 導致大多 DL 模型效果不如建立辭典的方式 (lexicon)</li>
+</ul>
+</li>
+</ul>
+<h3 id="document-ranking"><a class="markdownIt-Anchor" href="#document-ranking"></a> Document Ranking</h3>
+<ul>
+<li>Goal: 給定 Query, 從一堆文章找出相關度排序</li>
+<li>NLP task: Semantic Textual Similarity</li>
+<li>Difficulty: 延遲性 &amp; 持續有效性</li>
+<li>Solution
+<ul>
+<li>Method
+<ul>
+<li>Step 1: 提取 Query 和一份文檔有多個區塊 embedding</li>
+<li>Step 2: 計算 Query embedding 和各區塊 embedding 的 cos similarity</li>
+<li>Step 3: 將 cos 特徵和手工特徵 concat 起來</li>
+<li>Step 4: 建立 learning-to-rank layer 來計算此文檔的分數</li>
+</ul>
+  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/cJEECIA.png" alt="模型架構 (不包含 learning-to-rank layer)" fancybox="true"/></div><div class="image-meta"><span class="image-caption center">模型架構 (不包含 learning-to-rank layer)</span></div></div>
+</li>
+<li>Supplementary
+<ul>
+<li>learning-to-rank layer
+<ul>
+<li>Reference：Neural Ranking Models with Multiple Document Fields</li>
+<li>Sign:
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Ψ</mi></mrow><annotation encoding="application/x-tex">\Psi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">Ψ</span></span></span></span> : matching netword</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Λ</mi><mi>D</mi></msub></mrow><annotation encoding="application/x-tex">\Lambda_D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Λ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> : 集成 D 文檔的各區塊</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Φ</mi><mi>Q</mi></msub></mrow><annotation encoding="application/x-tex">\Phi_Q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord">Φ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">Q</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span> : query representation</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Φ</mi><mi>D</mi></msub></mrow><annotation encoding="application/x-tex">\Phi_D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Φ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> : doc representation</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Φ</mi><mi>F</mi></msub></mrow><annotation encoding="application/x-tex">\Phi_F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Φ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">F</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> : D 文檔的各個 field representation</li>
+</ul>
+</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span> 文檔的檢索分數 = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Ψ</mi><mo stretchy="false">(</mo><msub><mi mathvariant="normal">Φ</mi><mi>Q</mi></msub><mo separator="true">,</mo><msub><mi mathvariant="normal">Φ</mi><mi>D</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Psi(\Phi_Q,\Phi_D)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord">Ψ</span><span class="mopen">(</span><span class="mord"><span class="mord">Φ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">Q</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord">Φ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Ψ</mi><mo stretchy="false">(</mo><msub><mi mathvariant="normal">Φ</mi><mi>Q</mi></msub><mo separator="true">,</mo><msub><mi mathvariant="normal">Λ</mi><mi>D</mi></msub><mo stretchy="false">(</mo><msub><mi mathvariant="normal">Φ</mi><mrow><mi>F</mi><mn>1</mn></mrow></msub><mo stretchy="false">(</mo><mi>F</mi><mn>1</mn><mo stretchy="false">)</mo><mo separator="true">,</mo><msub><mi mathvariant="normal">Φ</mi><mrow><mi>F</mi><mn>2</mn></mrow></msub><mo stretchy="false">(</mo><mi>F</mi><mn>2</mn><mo stretchy="false">)</mo><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><msub><mi mathvariant="normal">Φ</mi><mrow><mi>F</mi><mi>k</mi></mrow></msub><mo stretchy="false">(</mo><mi>F</mi><mi>k</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Psi(\Phi_Q,\Lambda_D(\Phi_{F1}(F1),\Phi_{F2}(F2),...,\Phi_{Fk}(Fk)))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord">Ψ</span><span class="mopen">(</span><span class="mord"><span class="mord">Φ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">Q</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord">Λ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord">Φ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">F</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mord">1</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord">Φ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">F</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mord">2</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord">Φ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">F</span><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></li>
+</ul>
+  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/pKeZvlU.png" alt="ranking model 架構" fancybox="true"/></div><div class="image-meta"><span class="image-caption center">ranking model 架構</span></div></div>
+</li>
+</ul>
+</li>
+<li>Finding: 手工特徵是在個任務的實驗上屬於強力特徵。個人抱持懷疑的態度，畢竟驗證指標使用的是 NDCG, 而非衡量文章相似度作為指標。</li>
+</ul>
+</li>
+</ul>
+<h3 id="query-auto-completion"><a class="markdownIt-Anchor" href="#query-auto-completion"></a> Query Auto Completion</h3>
+<ul>
+<li>Goal: 在 user 輸入關鍵字的時, 同時推薦可能想輸入的候選字</li>
+<li>NLP task: Language Generation</li>
+<li>Difficulty: 延遲性</li>
+<li>Solution
+<ul>
+<li>Candidate Generation
+<ul>
+<li>對於過往出現過的關鍵詞, 可以用記憶體存取的方式直接讀取</li>
+<li>對於未出現的關鍵詞, 採用啟發式的方式產生候選字
+<ul>
+<li>啟發式結果可以從三個方式去得
+<ul>
+<li>一定時間內, 同個 session 接續查詢的 query</li>
+<li>(水平) 同用戶輸入的兩個 query 有 co-word</li>
+<li>(垂直) 不同用戶兩個 query 同時出現</li>
+</ul>
+</li>
+<li>Reference: Mitra and Craswell (2015)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Candidate Ranking
+<ul>
+<li>LSTM 計算後面要接龍字的分數值</li>
+</ul>
+  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/BG5VXiM.png" alt="query auto completion 架構 (不包含 learning-to-rank layer)" fancybox="true"/></div><div class="image-meta"><span class="image-caption center">query auto completion 架構 (不包含 learning-to-rank layer)</span></div></div>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="query-suggestion"><a class="markdownIt-Anchor" href="#query-suggestion"></a> Query Suggestion</h3>
+<ul>
+<li>Goal: 在搜尋結束時, 給予 user 下個搜尋字推薦, 類似推薦文章的想法</li>
+<li>NLP task: Machine Translation (Seq2Seq)</li>
+<li>Difficulty: 延遲性, 穩定性</li>
+<li>Solution
+<ul>
+<li>seq2seq model</li>
+</ul>
+</li>
+<li>Finding
+<ul>
+<li>此任務也可以用來做 query rewrite, 也許可以避免一些 user query 的冷門字
+<ul>
+<li>Example: <code>software developer</code> → <code>software engineer</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="bert-pretrained"><a class="markdownIt-Anchor" href="#bert-pretrained"></a> BERT Pretrained</h3>
+<ul>
+<li>Goal: 訓練基於自己 domain 的 BERT model</li>
+<li>NLP task: Eembedding</li>
+<li>Difficulty: 延遲性</li>
+<li>Solution
+<ul>
+<li>收集自有的 domain data</li>
+<li>使用輕量的 BERT 架構 (12層 → 6層), 以利加快推論速度</li>
+</ul>
+</li>
+</ul>
+<h2 id="conclusion"><a class="markdownIt-Anchor" href="#conclusion"></a> Conclusion</h2>
+<ul>
+<li>依據任務 &amp; 資料特性決定要使用甚麼樣的 model, 不一定都要套用 DL model
+<ul>
+<li>文中指出在 Query Tagging 和 Query Auto Completion (seen) 上 DL model 沒有 benefit</li>
+</ul>
+</li>
+<li>對於延遲性的建議
+<ul>
+<li>重新設計算法 (e.g., query auto completion)</li>
+<li>平行計算 (e.g., query suggestion)</li>
+<li>Embedding pre-sum (e.g., document ranking)</li>
+<li>Two stage ranking (e.g., document ranking)</li>
+</ul>
+</li>
+<li>對於穩定性的建議
+<ul>
+<li>Check training data, 剔除高度相似的資料</li>
+<li>Reuse 手工特徵, 這邊指的是避免過度依賴文字相關的結果</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">較早文章</div><a href="/2023/04/08/20230408/">Meta Segment Anything</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      參與討論
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="yifor01/blog-comments" data-repo-id="R_kgDOJUQBwQ" data-category="General" data-category-id="DIC_kwDOJUQBwc4CVoZ6" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-TW" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><center>
+</br>
+</br>
+  <!--不蒜子計數器-->
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <!--添加一個訪問量-->
+  <span>
+  本"<span style="color: rgb(13, 109, 252); font-weight: bold;">頁面</ a></span>"訪問 <span id="busuanzi_value_page_pv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 次
+  | 👀總訪問 <span id="busuanzi_value_site_pv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 次
+  | 🎎總訪客 <span id="busuanzi_value_site_uv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 人
+  </span>
+  </br>
+  </br>
+  <script type="text/javascript">
+  function show_runtime() {
+      window.setTimeout("show_runtime()", 1000);
+      X = new Date("4/07/2023 00:00:00");
+      Y = new Date();
+      T = (Y.getTime() - X.getTime());
+      M = 24 * 60 * 60 * 1000;
+      a = T / M;
+      A = Math.floor(a);
+      b = (a - A) * 24;
+      B = Math.floor(b);
+      c = (b - B) * 60;
+      C = Math.floor((b - B) * 60);
+      D = Math.floor((c - C) * 60);
+      runtime_span.innerHTML = "⏱️本站已運行 " + A + "天 " + B + "小時 " + C + "分 " + D + "秒"
+  }
+  show_runtime();
+  </script>
+  <span id="runtime_span"></span>
+</center>
+<hr />
+<p>本站由 <a href="/">@yifor</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主題創建。<br />
+本博客所有文章除特別聲明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 許可協議，轉載請注明出處。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '剛剛',
+      min: '分鐘前',
+      hour: '小時前',
+      day: '天前',
+      month: '個月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
