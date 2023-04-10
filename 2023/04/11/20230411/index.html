@@ -20,29 +20,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>Yifor Note</title>
+  <title>Improving Implicit Sentiment Learning via Local Sentiment Aggregation (更新中) - Yifor Note</title>
 
   
-    <meta name="description" content="About Me 一位誤入動物園的 NLP 新手, 專長是販賣各種動物周邊 (NLP 建模) 和 Boost 系列跑鞋 (ML 建模)。     Job Experiment NowAI Engineer at TSMCDefect Report 自動化知識抽取模組2022 年 6 月Machine Learning Engineer at Invos既有產品品類多標籤分類模型新品牌、新品類自動化">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Yifor Note">
-<meta property="og:url" content="http://example.com/about/index.html">
+    <meta name="description" content="本文為 “Improving Implicit Sentiment Learning via LSA” (2021.10) 的論文重點摘要 論文全文參考  Improving Implicit Sentiment Learning via LSAhttps:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2110.08604 Demo 參考  ABSA Quadruple Extractionhttps:&#x2F;&#x2F;hu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Improving Implicit Sentiment Learning via Local Sentiment Aggregation (更新中)">
+<meta property="og:url" content="http://example.com/2023/04/11/20230411/index.html">
 <meta property="og:site_name" content="Yifor Note">
-<meta property="og:description" content="About Me 一位誤入動物園的 NLP 新手, 專長是販賣各種動物周邊 (NLP 建模) 和 Boost 系列跑鞋 (ML 建模)。     Job Experiment NowAI Engineer at TSMCDefect Report 自動化知識抽取模組2022 年 6 月Machine Learning Engineer at Invos既有產品品類多標籤分類模型新品牌、新品類自動化">
+<meta property="og:description" content="本文為 “Improving Implicit Sentiment Learning via LSA” (2021.10) 的論文重點摘要 論文全文參考  Improving Implicit Sentiment Learning via LSAhttps:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2110.08604 Demo 參考  ABSA Quadruple Extractionhttps:&#x2F;&#x2F;hu">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Llama_lying_down.jpg/1200px-Llama_lying_down.jpg">
-<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Guanaco_09.24.jpg/800px-Guanaco_09.24.jpg">
-<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/4/49/Koala_climbing_tree.jpg">
-<meta property="og:image" content="https://i.imgur.com/coohktZ.jpg">
-<meta property="og:image" content="https://cdn.freebiesupply.com/logos/large/2x/tsmc-logo-png-transparent.png">
-<meta property="og:image" content="https://api.invoice.tw/wp/invos-main-web/457179321333312_1395267904191111.png">
-<meta property="og:image" content="https://assets.meet.jobs/uploads/organization/761/logo/profile_wisers-logo-vertical-RGB-CN.png">
-<meta property="og:image" content="https://www.gss.com.tw/templates/gss/html/com_easyblog/schema/logo.png">
-<meta property="article:published_time" content="2023-04-09T11:42:45.553Z">
-<meta property="article:modified_time" content="2023-04-09T11:42:45.553Z">
+<meta property="og:image" content="https://i.imgur.com/5mOGmsn.png">
+<meta property="og:image" content="https://i.imgur.com/OArs1D9.png">
+<meta property="og:image" content="https://i.imgur.com/txSUMiX.png">
+<meta property="article:published_time" content="2023-04-10T16:59:44.000Z">
+<meta property="article:modified_time" content="2023-04-10T17:23:50.721Z">
 <meta property="article:author" content="Howard Chang">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Llama_lying_down.jpg/1200px-Llama_lying_down.jpg">
+<meta property="article:tag" content="paper study">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://i.imgur.com/5mOGmsn.png">
   
   
 
@@ -75,47 +71,142 @@
   
 
 
+
+
   <div class='l_body' id='start'>
-    <aside class='l_left' layout='page'>
+    <aside class='l_left' layout='post'>
     
 
   
 
 <header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://i.imgur.com/bIQxvby.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Yifor Note</div><div class="sub normal cap">🔆 讀書筆記</div><div class="sub hover cap" style="opacity:0"> 🔆Written from Howard</div></a></div>
 
-<nav class="menu dis-select"><a class="nav-item" href="/">Blog</a><a class="nav-item" href="/notes/">項目</a><a class="nav-item" href="/about/">關於</a></nav>
+<nav class="menu dis-select"><a class="nav-item active" href="/">Blog</a><a class="nav-item" href="/notes/">項目</a><a class="nav-item" href="/about/">關於</a></nav>
 </header>
 
 
 <div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">沒有找到內容！</div></div></div></widget>
 
-<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">本文目錄</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#About-Me"><span class="toc-text">About Me</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Job-Experiment"><span class="toc-text">Job Experiment</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AI-Engineer-at-TSMC"><span class="toc-text">AI Engineer at TSMC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Machine-Learning-Engineer-at-Invos"><span class="toc-text">Machine Learning Engineer at Invos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Senior-Data-Scientist-at-Wisers"><span class="toc-text">Senior Data Scientist at Wisers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Data-Scientist-at-GSS"><span class="toc-text">Data Scientist at GSS</span></a></li></ol></li></ol></div></div></widget>
 
-<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" placeholder="站內搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">沒有找到內容！</div></div></div></widget>
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Improving Implicit Sentiment Learning via Local Sentiment Aggregation (更新中)</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description"><span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Goal"><span class="toc-text">Goal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contributions"><span class="toc-text">Contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Methodology"><span class="toc-text">Methodology</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Sentiment-Pattern"><span class="toc-text">Sentiment Pattern</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Local-Sentiment-Aggregation-LSA"><span class="toc-text">Local Sentiment Aggregation (LSA)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Sentiment-Aggregation-Window"><span class="toc-text">Sentiment Aggregation Window</span></a></li></ol></li></ol></li></ol></div></div></widget>
+
+
+
+
 </div>
 <footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/yifor01" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn-icons-png.flaticon.com/128/3291/3291695.png"/></a><a class="social" href="https://www.linkedin.com/in/chia-hao-chang-yifor" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn-icons-png.flaticon.com/512/174/174857.png"/></a></div></footer>
 
     </aside>
     <div class='l_main'>
       
-  
-
-<header class="header mobile-only"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://i.imgur.com/bIQxvby.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Yifor Note</div><div class="sub normal cap">🔆 讀書筆記</div><div class="sub hover cap" style="opacity:0"> 🔆Written from Howard</div></a></div></header>
-
-
 
       
 
 
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">首頁</a><span class="sep"></span><a class="cap breadcrumb" href="/">網誌</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/NLP/">NLP</a></div><div id="post-meta">發布於&nbsp;<time datetime="2023-04-10T16:59:44.000Z">2023-04-11</time></div></div>
 
-<article class="md-text content page"><h2 id="About-Me">About Me</h2>
-<p>一位誤入動物園的 NLP 新手, 專長是販賣各種動物周邊 (NLP 建模) 和 Boost 系列跑鞋 (ML 建模)。</p>
-<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Llama_lying_down.jpg/1200px-Llama_lying_down.jpg" fancybox="true" style="width:100px;"/></div></div>
-<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Guanaco_09.24.jpg/800px-Guanaco_09.24.jpg" fancybox="true" style="width:100px;"/></div></div>
-<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://upload.wikimedia.org/wikipedia/commons/4/49/Koala_climbing_tree.jpg" fancybox="true" style="width:100px;"/></div></div>
-<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/coohktZ.jpg" fancybox="true" style="width:100px;"/></div></div>
-<h2 id="Job-Experiment">Job Experiment</h2>
-<div class="tag-plugin timeline"><div class="timenode" index="0"><div class="header"><p>Now</p></div><div class="body fs14"><h3 id="AI-Engineer-at-TSMC">AI Engineer at TSMC</h3><ul><li>Defect Report 自動化知識抽取模組</li></ul><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.freebiesupply.com/logos/large/2x/tsmc-logo-png-transparent.png" fancybox="true" style="height:50px;"/></div></div></div></div><div class="timenode" index="1"><div class="header"><p>2022 年 6 月</p></div><div class="body fs14"><h3 id="Machine-Learning-Engineer-at-Invos">Machine Learning Engineer at Invos</h3><ul><li>既有產品品類多標籤分類模型</li><li>新品牌、新品類自動化發現模型</li></ul><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.invoice.tw/wp/invos-main-web/457179321333312_1395267904191111.png" fancybox="true" style="height:50px;"/></div></div></div></div><div class="timenode" index="2"><div class="header"><p>2022 年 3 月</p></div><div class="body fs14"><h3 id="Senior-Data-Scientist-at-Wisers">Senior Data Scientist at Wisers</h3><ul><li>專利發表<ul><li><a target="_blank" rel="noopener" href="https://twpat2.tipo.gov.tw/twpatc/twpatkm?!!FRURLI764480">新詞發現算法</a></li><li><a target="_blank" rel="noopener" href="https://gpss4.tipo.gov.tw/gpsskmc/gpssbkm?!!FRURLCN115081442A">⾏業專業詞挖掘算法</a></li></ul></li><li>商用 API 開發<ul><li>關鍵詞抽取模組 (包含新詞、熱詞、領域關鍵詞)</li><li>購買意願模型 (包含中文、廣東話)</li><li>評論分類模型</li><li>英文情感分析模型</li></ul></li><li>技術研發<ul><li>自動化 POC tagging (支援 8個API, 14個客製化抽取算法)</li><li>運動品牌知識圖譜優化</li><li>特定實體的購買意願模型</li></ul></li></ul><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://assets.meet.jobs/uploads/organization/761/logo/profile_wisers-logo-vertical-RGB-CN.png" fancybox="true" style="height:50px;"/></div></div></div></div><div class="timenode" index="3"><div class="header"><p>2020 年 2 月</p></div><div class="body fs14"><h3 id="Data-Scientist-at-GSS">Data Scientist at GSS</h3><ul><li>CRM Insight 產品維護 &amp; 新功能開發<ul><li>行銷最佳化 BI</li></ul></li><li>公司產品關鍵字廣告成效分析</li></ul><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.gss.com.tw/templates/gss/html/com_easyblog/schema/logo.png" fancybox="true" style="height:50px;"/></div></div></div></div><div class="timenode" index="4"><div class="header"><p>2019 年 7 月</p></div><div class="body fs14"></div></div></div></article>
+<article class='md-text content post'>
+<h1 class="article-title"><span>Improving Implicit Sentiment Learning via Local Sentiment Aggregation (更新中)</span></h1>
+<p>本文為 “Improving Implicit Sentiment Learning via LSA” (2021.10) 的論文重點摘要<br>
+論文全文參考</p>
+ <div class="tag-plugin link dis-select"><a class="link-card plain" title="Improving Implicit Sentiment Learning via LSA" href="https://arxiv.org/abs/2110.08604" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Improving Implicit Sentiment Learning via LSA</span><span class="cap link fs12">https://arxiv.org/abs/2110.08604</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+<p>Demo 參考</p>
+ <div class="tag-plugin link dis-select"><a class="link-card plain" title="ABSA Quadruple Extraction" href="https://huggingface.co/spaces/Gradio-Blocks/Multilingual-Aspect-Based-Sentiment-Analysis" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">ABSA Quadruple Extraction</span><span class="cap link fs12">https://huggingface.co/spaces/Gradio-Blocks/Multilingual-Aspect-Based-Sentiment-Analysis</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+<h2 id="Description">Description</h2>
+<h3 id="Goal">Goal</h3>
+<ul>
+<li>2022年 ABSC 的 SOTA model (SemEval-2014 Task 4 - Subtask 2)</li>
+<li>ABSA/ABSC 任務 (Aspect Based Sentiment Analysis/Classification)
+<ul>
+<li>根據資料集的定義, 這任務又細分為兩類 <code>Aspect term polarity</code> 和 <code>Aspect category polarity</code></li>
+<li><code>Aspect term polarity</code>: 對已經提供的 term 進行情感分類。
+<ul>
+<li>Example: I hated their fajitas, but their salads were great → {fajitas: negative, salads: positive}</li>
+</ul>
+</li>
+<li><code>Aspect category polarity</code>: 對抽象概念 aspect 進行情感分類。
+<ul>
+<li>Example: The restaurant was too expensive → {price: negative}</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Contributions">Contributions</h3>
+<ul>
+<li>非句法樹結構方法優於句法樹(syntax-based)方法。
+<ul>
+<li>實驗中比較了數個 syntax-based 的方法在不同的資料集上, 如: SK-GCN-BERT (2020), DGEDT-BERT (2020), ASGCN-RoBERTa (2021), SARL-RoBERTa (2021) 等等。</li>
+<li>本文 propose 的方法 $LSA_{T}-X-DeBERTa$, $LSA_{S}-X-DeBERTa$ 均優於上面  syntax-based 方法約 2-8% 的 F1 scrore。</li>
+</ul>
+</li>
+</ul>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/5mOGmsn.png" alt="syntax-based tree example" fancybox="true" style="width:800px;"/></div><div class="image-meta"><span class="image-caption center">syntax-based tree example</span></div></div>
+<ul>
+<li>LSA (Local Sentiment Aggregation) 是 ABSC 的通用泛式。
+<ul>
+<li>實驗中抽換了 pre-train model (BERT, RoBERTa, DeBERTa) 對於結果都有較顯著的改進 0.5%-1%。因此作者認為 LSA 具有一定的擴展性和靈活性。</li>
+</ul>
+</li>
+<li>差分加權策略 → 使 LSA 可以用 gradient descent 來優化相鄰情感值
+<ul>
+<li>TODO</li>
+</ul>
+</li>
+</ul>
+<h3 id="Methodology">Methodology</h3>
+<h4 id="Sentiment-Pattern">Sentiment Pattern</h4>
+<ul>
+<li>作者觀察了五個著名的 ABSC 資料集, 歸納出情感具有 cluster 特性, 因此有了提取相鄰情感的想法 (Sentiment Coherency)。</li>
+<li><code>相鄰情感</code>可以處理更進階的<code>隱式情感</code>, 並可以消除因為部分噪音文字造成的分類錯誤問題。</li>
+</ul>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/OArs1D9.png" alt="此例子中有兩個 sentiment cluster" fancybox="true" style="width:800px;"/></div><div class="image-meta"><span class="image-caption center">此例子中有兩個 sentiment cluster</span></div></div>
+<h4 id="Local-Sentiment-Aggregation-LSA">Local Sentiment Aggregation (LSA)</h4>
+<ul>
+<li>LSA 使用了 sentiment aggregation window 用來抽取上述的<code>相鄰情感</code></li>
+<li>具體用了三個 local sentiment feature representation
+<ul>
+<li>$LSA_P$: BERT-SPC based feature
+<ul>
+<li>類似 BERT QA 做法, 將 aspect 嵌在句子後面</li>
+<li>Example: <mark class="tag-plugin mark" color="red">CLS</mark> <mark class="tag-plugin mark" color="gray">text</mark>  <mark class="tag-plugin mark" color="yellow">SEP</mark> <mark class="tag-plugin mark" color="green">aspect</mark> <mark class="tag-plugin mark" color="yellow">SEP</mark></li>
+<li>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/txSUMiX.png" alt="BERT-SPC based feature" fancybox="true" style="width:800px;"/></div><div class="image-meta"><span class="image-caption center">BERT-SPC based feature</span></div></div>
+</li>
+</ul>
+</li>
+<li>$LSA_T$: Local content focus (LCF) based feature
+<ul>
+<li>計算 token 和 aspect 的相對距離來獲取 aspect feature</li>
+</ul>
+  <details class="tag-plugin folding" color="yellow" child="codeblock"><summary><span>詳細計算方式</span></summary><div class="body"><ul><li>定義<ul><li>${W_1^C,W_2^C,…,W_n^C}$ 為 token 序列</li><li>$H^C_{w_i^C}$ (要學的向量) 為每個 token 位置的 hidden state</li><li>$d_{w_i^C}$ (定值) 為 token $W_i^C$ 與 aspect 的距離</li><li>$\alpha$ (超參數) 為距離的 threshold, 通常訂為 3</li><li>$H^*_{w_i^C}$: aspect feature</li></ul></li><li>計算方式<ul><li>token 與 aspect 較近的時候 ($d_{w_i^C}&lt;\alpha$), aspect feature 就是當下的 $H^C_{w_i^C}$</li><li>token 與 aspect 較遠的時候 ($d_{w_i^C}\geq\alpha$), aspect feature 會乘距離懲罰項 $(1-\frac{d_{w_i^C}-\alpha}{n})$</li><li>$d_{w_i^C}$ 距離計算為所有的 aspect 和 token $w_i^C$ 平均絕對值距離</li></ul></li></ul></div></details>
+</li>
+<li>$LSA_S$: Syntactical local context focus (LCFS) based feature
+<ul>
+<li>距離計算改為 syntax-tree 中 token $W_i^C$ 到 aspect 的最短距離</li>
+</ul>
+  <details class="tag-plugin folding" color="yellow" child="codeblock"><summary><span>詳細計算方式</span></summary><div class="body"><ul><li>計算方式<ul><li>$H^*_{w_i^C}$ 計算方式與 $LSA_T$ 相同</li></ul></li></ul></div></details>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="Sentiment-Aggregation-Window">Sentiment Aggregation Window</h4>
+<ul>
+<li>Sentiment Aggregation Window 組合了 k 個相鄰的 aspect feature</li>
+</ul>
+
+
+
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">較早文章</div><a href="/2023/04/09/20230409/">Deep Natural Language Processing for LinkedIn Search</a></div></section></div>
+
+
+
+
+
 
   <div class='related-wrap md-text reveal' id="comments">
     <section class='header cmt-title cap theme'>
