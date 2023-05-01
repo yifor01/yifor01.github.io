@@ -23,17 +23,17 @@
   <title>LLaMA 套件踩坑 - Yifor Note</title>
 
   
-    <meta name="description" content="本文介紹 LLaMA 系列套件安裝踩過的一些坑和解法  bitsandbytes  load_in_8bit error  Root Cause: 系統預設的 bitsandbytes_cpu.so 與 cuda 版本不同 Action: 將自己的版本的  bitsandbytes_cuda&lt;cuda版號&gt;.so 替換為 bitsandbytes_cpu.so  step1: mv l">
+    <meta name="description" content="本文介紹 LLaMA 系列套件安裝踩過的一些坑和解法   bitsandbytes  load_in_8bit error  Root Cause: 系統預設的 bitsandbytes_cpu.so 與 cuda 版本不同 Action: 將自己的版本的  bitsandbytes_cuda&lt;cuda版號&gt;.so 替換為 bitsandbytes_cpu.so  step1: mv">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LLaMA 套件踩坑">
 <meta property="og:url" content="http://example.com/2023/04/07/20230407/index.html">
 <meta property="og:site_name" content="Yifor Note">
-<meta property="og:description" content="本文介紹 LLaMA 系列套件安裝踩過的一些坑和解法  bitsandbytes  load_in_8bit error  Root Cause: 系統預設的 bitsandbytes_cpu.so 與 cuda 版本不同 Action: 將自己的版本的  bitsandbytes_cuda&lt;cuda版號&gt;.so 替換為 bitsandbytes_cpu.so  step1: mv l">
+<meta property="og:description" content="本文介紹 LLaMA 系列套件安裝踩過的一些坑和解法   bitsandbytes  load_in_8bit error  Root Cause: 系統預設的 bitsandbytes_cpu.so 與 cuda 版本不同 Action: 將自己的版本的  bitsandbytes_cuda&lt;cuda版號&gt;.so 替換為 bitsandbytes_cpu.so  step1: mv">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://www.wheelandanchor.ca/wp-content/uploads/2021/07/alpaca-1024x576.jpeg">
 <meta property="og:image" content="https://i.imgur.com/DPPnRxe.png">
 <meta property="article:published_time" content="2023-04-07T15:24:53.000Z">
-<meta property="article:modified_time" content="2023-04-08T13:43:37.166Z">
+<meta property="article:modified_time" content="2023-05-01T15:26:45.450Z">
 <meta property="article:author" content="Howard Chang">
 <meta property="article:tag" content="practice">
 <meta name="twitter:card" content="summary_large_image">
@@ -88,7 +88,7 @@
 <widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">沒有找到內容！</div></div></div></widget>
 
 
-<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">LLaMA 套件踩坑</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#bitsandbytes"><span class="toc-text">bitsandbytes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#transformer"><span class="toc-text">transformer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pytorch-docker"><span class="toc-text">pytorch docker</span></a></li></ol></div></div></widget>
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">LLaMA 套件踩坑</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#bitsandbytes"><span class="toc-text"> bitsandbytes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#transformer"><span class="toc-text"> transformer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pytorch-docker"><span class="toc-text"> pytorch docker</span></a></li></ol></div></div></widget>
 
 
 
@@ -108,8 +108,8 @@
 <article class='md-text content post'>
 <h1 class="article-title"><span>LLaMA 套件踩坑</span></h1>
 <p>本文介紹 LLaMA 系列套件安裝踩過的一些坑和解法</p>
-<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.wheelandanchor.ca/wp-content/uploads/2021/07/alpaca-1024x576.jpeg" fancybox="true" style="width:200px;"/></div></div>
-<h2 id="bitsandbytes">bitsandbytes</h2>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.wheelandanchor.ca/wp-content/uploads/2021/07/alpaca-1024x576.jpeg" fancybox="true" style="width:600px;"/></div></div>
+<h2 id="bitsandbytes"><a class="markdownIt-Anchor" href="#bitsandbytes"></a> bitsandbytes</h2>
 <ul>
 <li>load_in_8bit error
 <ul>
@@ -123,16 +123,16 @@
 </ul>
 </li>
 </ul>
-<h2 id="transformer">transformer</h2>
+<h2 id="transformer"><a class="markdownIt-Anchor" href="#transformer"></a> transformer</h2>
 <ul>
 <li>目前僅有 transformers-main 的版本支援 <code>LlamaTokenizer</code> 系列的子套件  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip uninstall transformers</span><br><span class="line">pip install git+https://github.com/huggingface/transformers.git</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="pytorch-docker">pytorch docker</h2>
+<h2 id="pytorch-docker"><a class="markdownIt-Anchor" href="#pytorch-docker"></a> pytorch docker</h2>
 <ul>
 <li>LLaMA 最低 python 環境要求為 <code>python 3.8</code>, 如何的套用現成 Docker Image?</li>
-<li>以下是 pytorch 在 dockerhub 各版本對應到的 python 環境:<br>
-<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/DPPnRxe.png" alt=""></li>
+<li>以下是 pytorch 在 dockerhub 各版本對應到的 python 環境:<br />
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/DPPnRxe.png" alt="" /></li>
 </ul>
 
 
