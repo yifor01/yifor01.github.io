@@ -89,7 +89,7 @@
 <widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">沒有找到內容！</div></div></div></widget>
 
 
-<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">WizardLM - Empowering Large Language Models to Follow Complex Instructions</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description"><span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Goal"><span class="toc-text">Goal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contributions"><span class="toc-text">Contributions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Methodology"><span class="toc-text">Methodology</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-text">Conclusion</span></a></li></ol></div></div></widget>
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">WizardLM - Empowering Large Language Models to Follow Complex Instructions</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#description"><span class="toc-text"> Description</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#goal"><span class="toc-text"> Goal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#contributions"><span class="toc-text"> Contributions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#methodology"><span class="toc-text"> Methodology</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#conclusion"><span class="toc-text"> Conclusion</span></a></li></ol></div></div></widget>
 
 
 
@@ -113,20 +113,20 @@
  <div class="tag-plugin link dis-select"><a class="link-card plain" title="WizardLM: Empowering Large Language Models to Follow Complex Instructions" href="https://arxiv.org/abs/2304.12244" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">WizardLM: Empowering Large Language Models to Follow Complex Instructions</span><span class="cap link fs12">https://arxiv.org/abs/2304.12244</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
 <p>Demo 參考</p>
  <div class="tag-plugin link dis-select"><a class="link-card plain" title="" href="https://81189ea0b66d14f256.gradio.live/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="title,icon"><div class="left"><span class="title">https://81189ea0b66d14f256.gradio.live/</span><span class="cap link fs12">https://81189ea0b66d14f256.gradio.live/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
-<h2 id="Description">Description</h2>
-<h3 id="Goal">Goal</h3>
+<h2 id="description"><a class="markdownIt-Anchor" href="#description"></a> Description</h2>
+<h3 id="goal"><a class="markdownIt-Anchor" href="#goal"></a> Goal</h3>
 <ul>
 <li>最近的 LLaMA 系列 model 的 instruction 均使用較為普通的 self-instruction 生成方法或是人工生成較簡單的 instruction → 缺乏資料多元性</li>
 <li>受到 ChatGPT &amp; GPT4 的啟發, 上述兩模型都經由大量高質量的人工標註保證其資料多元性 → 思考低成本取得高質量的 instruction</li>
 </ul>
-<h3 id="Contributions">Contributions</h3>
+<h3 id="contributions"><a class="markdownIt-Anchor" href="#contributions"></a> Contributions</h3>
 <ul>
 <li>在複雜的 instruction 資料中, 聲稱比 ChatGPT 表現來的好, 這邊有個疑點是沒有一個好的 benchmark 來做評測標準 (僅用 63 筆測試 &amp; 工讀生判定生成的好壞)  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/z9xKsFs.png" alt="複雜指令 WizardLM 勝率比較" fancybox="true" style="width:600px;"/></div><div class="image-meta"><span class="image-caption center">複雜指令 WizardLM 勝率比較</span></div></div>
 </li>
 <li>在各種難度的 instruction 中, 表現比同種 LLaMA 架構的 Alpaca 和 Vincuna 來得好, 這也驗證了資料多元性或許可以讓模型學習的更好</li>
 <li>本文提出一種新的 instruction 產生方式, 有別於一般的 self-instruction, 該 instruction 會衍生出新的複雜分支結果, 作者稱為 “Evol-Instruct”</li>
 </ul>
-<h2 id="Methodology">Methodology</h2>
+<h2 id="methodology"><a class="markdownIt-Anchor" href="#methodology"></a> Methodology</h2>
 <ul>
 <li>“Evol-Instruct” 的核心想法是利用原有的簡單 instruction 透過 ChatGPT API 來產生出進階的 instruction 作為模型訓練資料</li>
 <li>“Evol-Instruct” 分為兩大類: In-depth Evolving (藍) 和 In-breadth Evolving (紅)</li>
@@ -134,35 +134,35 @@
 <ol>
 <li>In-depth Evolving 又可以分為 5 小類, 底下列出對應的 prompt 生成方式
 <ul>
-<li>add constraints<br>
+<li>add constraints<br />
 <code>Please add one more constraints/requirements into #GivenPrompt#</code></li>
-<li>deepening<br>
+<li>deepening<br />
 <code>If #Given Prompt# contains inquiries about certain issues, the depth and breadth of the inquiry can be increased</code></li>
-<li>concretizing<br>
+<li>concretizing<br />
 <code>Please replace general concepts with more specific concepts.</code></li>
-<li>increase reasoning steps<br>
+<li>increase reasoning steps<br />
 <code>If #GivenPrompt# can be solved with just a few simple thinking processes, you can rewrite it to explicitly request multiple-step reasoning.</code></li>
-<li>complicate input<br>
+<li>complicate input<br />
 <code>You should try your best not to make the #Rewritten Prompt# become verbose, #Rewritten Prompt# can only add 10 to 20 words into #GivenPrompt#.</code></li>
 </ul>
 </li>
-<li>In-breadth Evolving 基於廣度提升 instruction 的複雜度, 底下列出 prompt 生成方式<br>
+<li>In-breadth Evolving 基於廣度提升 instruction 的複雜度, 底下列出 prompt 生成方式<br />
 <code>Your goal is to draw inspiration from the #Given Prompt# to create a brand new prompt. This new prompt should belong to the same domain as the #Given Prompt# but be even more rare. The LENGTH and difficulty level of the #Created Prompt# should be similar to that of the #Given Prompt#. The #Created Prompt# must be reasonable and must be understood and responded by humans. ‘#Given Prompt#’, ‘#Created Prompt#’, ‘given prompt’ and ‘created prompt’ are not allowed to appear in #Created Prompt#.</code></li>
 </ol>
 <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/Hx3IcJx.png" alt="Evol-Instruct Example" fancybox="true" style="width:600px;"/></div><div class="image-meta"><span class="image-caption center">Evol-Instruct Example</span></div></div>
 <ol start="3">
-<li>Elimination Evolving 透過 ChatGPT API 生成的難免會遇到產生失敗的情況, 作者使用以下 4 點來進行過濾<br>
-a. 剔除沒有加入額外資訊的 instruction, 方法為透過以下 prompt 打 ChatGPT API 所完成<br>
-<code>Here are two Instructions to ChatGPT AI, do you think they are equal to each other,which meet the following requirements: 1.They have same constraints and requirments. 2.They have same depth and breadth of the inquiry. The First Prompt: &lt;Here is first instruction.&gt; The Second Prompt: &lt;Here is second instruction.&gt; Your Judgement (Just answer: Equal or NotEqual. No need to explain the reason.)</code><br>
-b. 剔除含有 ‘sorry’ 並且較短的 instruction (少於 80), 這類結果通常代表 ChatGPT API 回答得較為吃力<br>
-c. 剔除只包含標點符號和停用詞的 instruction<br>
+<li>Elimination Evolving 透過 ChatGPT API 生成的難免會遇到產生失敗的情況, 作者使用以下 4 點來進行過濾<br />
+a. 剔除沒有加入額外資訊的 instruction, 方法為透過以下 prompt 打 ChatGPT API 所完成<br />
+<code>Here are two Instructions to ChatGPT AI, do you think they are equal to each other,which meet the following requirements: 1.They have same constraints and requirments. 2.They have same depth and breadth of the inquiry. The First Prompt: &lt;Here is first instruction.&gt; The Second Prompt: &lt;Here is second instruction.&gt; Your Judgement (Just answer: Equal or NotEqual. No need to explain the reason.)</code><br />
+b. 剔除含有 ‘sorry’ 並且較短的 instruction (少於 80), 這類結果通常代表 ChatGPT API 回答得較為吃力<br />
+c. 剔除只包含標點符號和停用詞的 instruction<br />
 d. 剔除包含一開始設定的 prompt 如 “given prompt”, “rewritten prompt”, “#Rewritten Prompt#”</li>
 </ol>
 <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/guU91Ti.png" alt="Overview of Evol-Instruct" fancybox="true" style="width:600px;"/></div><div class="image-meta"><span class="image-caption center">Overview of Evol-Instruct</span></div></div>
 <ol start="4">
 <li>Response Generation: 由於經過 “Evol-Instruct” 後的 instruction 可能與原本問題的答案差距甚大, 作者又去打了一輪 ChatGPT API 作為完整的 QA pair 進行訓練</li>
 </ol>
-<h2 id="Conclusion">Conclusion</h2>
+<h2 id="conclusion"><a class="markdownIt-Anchor" href="#conclusion"></a> Conclusion</h2>
 <ul>
 <li>此篇論文提出一種優化 instruction 的方式, 藉由 ChatGPT API 的改寫能力來取得進階的 instruction 以及對應的 output 作為訓練資料</li>
 <li>能夠優於 Alpaca, Vincuna 等近期熱門 model, 可以歸功於工程的成功, 雖然資料取得方式較為暴力, 但要養出一支好的羊駝就必須給好的飼料才能有好的成果</li>
@@ -230,8 +230,8 @@ d. 剔除包含一開始設定的 prompt 如 “given prompt”, “rewritten pr
   </script>
   <span id="runtime_span"></span>
 </center>
-<hr>
-<p>本站由 <a href="/">@yifor</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主題創建。<br>
+<hr />
+<p>本站由 <a href="/">@yifor</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主題創建。<br />
 本博客所有文章除特別聲明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 許可協議，轉載請注明出處。</p>
 </div></footer>
 
