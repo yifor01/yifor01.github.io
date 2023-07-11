@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://i.imgur.com/TY8uANb.png">
 <meta property="og:image" content="https://i.imgur.com/4PDYgqX.png">
 <meta property="article:published_time" content="2023-07-10T15:45:42.000Z">
-<meta property="article:modified_time" content="2023-07-11T15:45:21.040Z">
+<meta property="article:modified_time" content="2023-07-11T15:54:25.042Z">
 <meta property="article:author" content="Howard Chang">
 <meta property="article:tag" content="paper study">
 <meta name="twitter:card" content="summary_large_image">
@@ -142,11 +142,11 @@
 </li>
 </ul>
 <h2 id="methodology"><a class="markdownIt-Anchor" href="#methodology"></a> Methodology</h2>
-<p>Focused Transformer(FOT) 機制是通過對比學習，增強了 attention layer (key, value) 中的空間結構，從而擴展了上下文長度</p>
+<p>Focused Transformer (FOT) 機制是通過對比學習，增強了 attention layer (key, value) 中的空間結構，從而擴展了上下文長度</p>
 <ul>
-<li>Follow “memorizing transformer” 的方法來降低 attention 計算複雜度 <span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \rightarrowO at position 8: O(n**2)\̲r̲i̲g̲h̲t̲a̲r̲r̲o̲w̲O̲(\log_n)'>O(n**2)\rightarrowO(\log_n)</span></li>
+<li>Follow <code>memorizing transformer</code> 的方法來降低 attention 計算複雜度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo><mo>→</mo><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2) \rightarrow O(\log(n))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></li>
 <li>具體來說，對於外部插入的知識，會去訓練 value (local) 和 key (external) 間的 attention, 所以需要一定資料進行 pre-train 或 fine-tune</li>
-<li>如何訓練出一個好的 attention 則是透過對比學習的方式，利用自己(正樣本)和前一篇文章(負樣本)來實現</li>
+<li>如何訓練出一個好的 attention 則是透過對比學習的方式，利用目前文章(正樣本)和前一篇文章(負樣本)來實現</li>
 <li>更進一步可以透過 cross-batch 的手法打包多筆資料(超參數 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span>)讓訓練結果更 robust，這也暗示著可以解決分心的問題</li>
 </ul>
 <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/KoluBaK.png" alt="Memorizing Transformer Overview" fancybox="true" style="width:600px;"/></div><div class="image-meta"><span class="image-caption center">Memorizing Transformer Overview</span></div></div>
@@ -157,7 +157,7 @@
 <ul>
 <li>此篇論文實作了將原本只能處理 2k tokens 的 OpenLLaMA 透過 FOT 訓練後的 LONGLLaMA 可以處理高達 256k tokens。其他 LLM 均可以透過此方法訓練出更長的處理長度的版本。</li>
 <li>有了這麼大量的有效處理長度，往後在 domain 應用場景也許就不需要再額外做 pre-train，就可以達成不錯的 inference 水準。</li>
-<li>這篇的限制為如何加速 KNN search 的搜尋速度和論文提到增加參考文章量(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span>)是一個提升 performance 的有效方法，這種外掛式知識的手段極度考驗 GPU memory，通常會使用到分布式運算。實作上需要再研究此超參數設定帶來的 trade off。</li>
+<li>這篇的限制為如何加速 KNN search 的搜尋速度和論文提到增加參考文章量 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span> 是一個提升 performance 的有效方法，這種外掛式知識的手段極度考驗 GPU memory，通常會使用到分布式運算。實作上需要再研究此超參數設定帶來的 trade off。</li>
 </ul>
 
 
