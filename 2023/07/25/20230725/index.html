@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang='zh-TW'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Llama 2 - Open Foundation and Fine-Tuned Chat Models - Yifor Note</title>
+
+  
+    <meta name="description" content="本文為 “Llama 2: Open Foundation and Fine-Tuned Chat Models” (2023.07) 的論文摘要 論文全文參考  Llama 2: Open Foundation and Fine-Tuned Chat Modelshttps:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;2307.09288.pdf Open Source  Llama 2https:&#x2F;&#x2F;gi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Llama 2 - Open Foundation and Fine-Tuned Chat Models">
+<meta property="og:url" content="http://example.com/2023/07/25/20230725/index.html">
+<meta property="og:site_name" content="Yifor Note">
+<meta property="og:description" content="本文為 “Llama 2: Open Foundation and Fine-Tuned Chat Models” (2023.07) 的論文摘要 論文全文參考  Llama 2: Open Foundation and Fine-Tuned Chat Modelshttps:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;2307.09288.pdf Open Source  Llama 2https:&#x2F;&#x2F;gi">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/FvD87KE.png">
+<meta property="og:image" content="https://i.imgur.com/crGlzkg.png">
+<meta property="article:published_time" content="2023-07-24T17:00:00.000Z">
+<meta property="article:modified_time" content="2023-07-24T17:04:34.807Z">
+<meta property="article:author" content="Howard Chang">
+<meta property="article:tag" content="paper study">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://i.imgur.com/FvD87KE.png">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://i.imgur.com/kcnNk0y.png">
+  
+
+  
+
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://i.imgur.com/bIQxvby.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Yifor Note</div><div class="sub normal cap">🔆 讀書筆記</div><div class="sub hover cap" style="opacity:0"> 🔆Written from Howard</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">Blog</a><a class="nav-item" href="/notes/">項目</a><a class="nav-item" href="/about/">關於</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">沒有找到內容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Llama 2 - Open Foundation and Fine-Tuned Chat Models</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#description"><span class="toc-text"> Description</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#goal-contributions"><span class="toc-text"> Goal &amp; Contributions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#methodology"><span class="toc-text"> Methodology</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pre-train"><span class="toc-text"> Pre-train</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fine-tune-sft"><span class="toc-text"> fine-tune (SFT)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fine-tune-rlhf"><span class="toc-text"> fine-tune (RLHF)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#conclusion"><span class="toc-text"> Conclusion</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/yifor01" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn-icons-png.flaticon.com/128/3291/3291695.png"/></a><a class="social" href="https://www.linkedin.com/in/chia-hao-chang-yifor" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn-icons-png.flaticon.com/512/174/174857.png"/></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">首頁</a><span class="sep"></span><a class="cap breadcrumb" href="/">網誌</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/NLP/">NLP</a></div><div id="post-meta">發布於&nbsp;<time datetime="2023-07-24T17:00:00.000Z">2023-07-25</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>Llama 2 - Open Foundation and Fine-Tuned Chat Models</span></h1>
+<p>本文為 “Llama 2: Open Foundation and Fine-Tuned Chat Models” (2023.07) 的論文摘要</p>
+<p>論文全文參考</p>
+ <div class="tag-plugin link dis-select"><a class="link-card plain" title="Llama 2: Open Foundation and Fine-Tuned Chat Models" href="https://arxiv.org/pdf/2307.09288.pdf" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Llama 2: Open Foundation and Fine-Tuned Chat Models</span><span class="cap link fs12">https://arxiv.org/pdf/2307.09288.pdf</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+<p>Open Source</p>
+ <div class="tag-plugin link dis-select"><a class="link-card plain" title="Llama 2" href="https://github.com/facebookresearch/llama" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Llama 2</span><span class="cap link fs12">https://github.com/facebookresearch/llama</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+<h2 id="description"><a class="markdownIt-Anchor" href="#description"></a> Description</h2>
+<h3 id="goal-contributions"><a class="markdownIt-Anchor" href="#goal-contributions"></a> Goal &amp; Contributions</h3>
+<ul>
+<li>NLP Foundation model (commercial use)
+<ul>
+<li>與 LLaMA 1 的差異為
+<ol>
+<li>訓練資料的增加</li>
+<li>context window 擴增 (2048 → 4096)</li>
+<li>依照 ChatGPT 的完整訓練 (pre-train → <strong>SFT</strong> → <strong>RLHF</strong>)</li>
+</ol>
+</li>
+<li>開源 pre-train 版本為 7B, 13B 70B, RLHF版本會多個 Chat 的 tag</li>
+</ul>
+</li>
+</ul>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/FvD87KE.png" alt="LLaMA 2-Chat training pipeline" fancybox="true" style="width:800px;"/></div><div class="image-meta"><span class="image-caption center">LLaMA 2-Chat training pipeline</span></div></div>
+<h2 id="methodology"><a class="markdownIt-Anchor" href="#methodology"></a> Methodology</h2>
+<h3 id="pre-train"><a class="markdownIt-Anchor" href="#pre-train"></a> Pre-train</h3>
+<ul>
+<li>使用了與 LLaMA 1 類似的架構, 包含 <code>RMSNorm</code>, <code>SwiGLU</code>, <code>RoPE</code>
+<ul>
+<li>RMSNorm (root mean square): 改進 LayerNorm 公式, 刪除對結果不顯著的中心化過程 (- mean), 提升 40% 計算速度</li>
+<li>SwiGLU: GLU 的變形, GLU 與其他 activation function 差異為有一個類 LSTM 的 gate control, 可以更好的控制做資訊篩選</li>
+<li>RoPE (rotary positional embeddings): 蘇神提出的, 在形式上是絕對位置編碼, 但在計算 attention 時可以變為相對位置編碼, 細節可以參考<a target="_blank" rel="noopener" href="https://kexue.fm/archives/8265">這裡</a></li>
+</ul>
+  <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i.imgur.com/crGlzkg.png" alt="LLaMA 2 architecture" fancybox="true" style="height:600px;"/></div><div class="image-meta"><span class="image-caption center">LLaMA 2 architecture</span></div></div>
+</li>
+<li>使用了與 LLaMA 1 不同的架構, 包含 擴展 <code>context length</code>, <code>GQA</code> (grouped-query attention)
+<ul>
+<li>擴展 context length: 在 pre-train 階段將文本訓練長度從 2k 擴增為 4k, 與上一篇的 FOT 架構不同, 屬於暴力 train 的方法</li>
+<li>GQA: 在近期很多大模型均有用到這種 attention layer (e.g, PaLM, Falcon), 這種方式好處是可以加速推論速度, 藉由共享不同 attention heads 間的 key 和 value, 達到參數的精簡</li>
+<li>Note: LLaMA 2 僅在 34B (尚未 release), 70B 有使用到</li>
+</ul>
+</li>
+<li>訓練細節
+<ul>
+<li>訓練時使用了 AdamW 的 optimizer</li>
+<li>初始學習率設定在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>∗</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">3*10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span> 並使用 cosine schedule</li>
+<li>權重衰減率 0.1 且有用上 gradient clipping = 1</li>
+</ul>
+</li>
+<li>Meta 花了很大的功夫在處理資料歧視問題, 並聲稱沒用到 Facebook 中用戶的資訊</li>
+</ul>
+<h3 id="fine-tune-sft"><a class="markdownIt-Anchor" href="#fine-tune-sft"></a> fine-tune (SFT)</h3>
+<ul>
+<li>與 LLaMA 1 最大的差異為多了 SFT + RLHF, LLaMA 1 是一個 pre-train model 僅有文字接龍能力, 無法讀懂人類指令, 因此有許多延伸模型 (e.g., Alpaca, Vicuna)</li>
+<li>在 Meta 之前的 LIMA 有提到可以用少量的<code>高質量</code>和<code>多元性</code>資料, 就可以使得 SFT model 有很好的表現, 在 LLaMA 2 使用了 27,540 個標註資料</li>
+<li>如何決定要停止標註?
+<ul>
+<li>透過手動地抽樣檢查來確保標註資料的正確性 (抽查 180 筆)</li>
+<li>SFT 的預測結果可以與人類標註資料相匹配時, 就可以 move on 到 RLHF 的標註上</li>
+</ul>
+</li>
+<li>訓練細節
+<ul>
+<li>初始學習率設定在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>∗</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>5</mn></mrow></msup></mrow><annotation encoding="application/x-tex">2*10^{-5}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span></span> 並使用 cosine schedule</li>
+<li>訓練文本長度控制在 4,096, 為了可以盡可能滿足這項設定, 在訓練集會將 prompt 和 answer 綁在一起, 中間會用特殊 token 區隔</li>
+<li>batch size = 64, 訓練了 2 個 epochs</li>
+</ul>
+</li>
+</ul>
+<h3 id="fine-tune-rlhf"><a class="markdownIt-Anchor" href="#fine-tune-rlhf"></a> fine-tune (RLHF)</h3>
+<ul>
+<li>
+<p>Reward Model</p>
+<ul>
+<li>做 RLHF 訓練前需要先做一個 reward model, 用來判斷 LLM 輸出的好壞</li>
+<li>LLaMA 2 在 reward model 採取和 chatGPT 類似的方式, 標註 1 對 1 模型輸出結果的優劣來做為 reward model 的訓練資料</li>
+<li>為了有更多樣化的訓練資料會使用不同的 LLM 以及 temperature 參數來輸出結果</li>
+<li>標註的 label 會分為 significantly better, better, slightly better, or negligibly better unsure.</li>
+<li>評估標準為 helpfulness 和 safety
+<ul>
+<li>safety 會在分為以下三個 label
+<ol>
+<li>the preferred response is safe and the other response is not</li>
+<li>both responses are safe, and 3) both responses are unsafe</li>
+<li>both responses are unsafe</li>
+</ol>
+</li>
+<li>有趣的是 helpfulness 和 safety 有時候會是 trade-off 關係, 這時候會訓練兩個 reward model</li>
+</ul>
+</li>
+<li>Reward Model 的初始模型為 pre-train chat, 這個作法是為了讓 Reward Model 知道 SFT 模型是不是在 pre-train chat 時有訓練過這個知識</li>
+<li>訓練細節
+<ul>
+<li>經實驗發現, 訓練太久會造成 over-fitting, 因此只訓練 1 個 epoch</li>
+<li>最大學習率設定為 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>∗</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>8</mn></mrow></msup></mrow><annotation encoding="application/x-tex">1*10^{-8}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span></span> (7B, 13B, 34B), <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>∗</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>6</mn></mrow></msup></mrow><annotation encoding="application/x-tex">5*10^{-6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span></span> (70B) 並使用 cosine schedule</li>
+<li>batch size = 1024</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Iterative Fine-Tuning</p>
+<ul>
+<li>有了 Reward model 後可以進行大量的 RLHF 訓練 (RLHF v1, RLHF v2, …, RLHF v5)</li>
+<li>RLHF finee-tune 使用了兩種演算法 PPO (Proximal Policy Optimization), Rejection Sampling fine-tuning</li>
+<li>在初期 (v1~v4) 均使用 Rejection Sampling, 後期則是先找出 top Rejection Sampling 在使用 PPO</li>
+</ul>
+</li>
+<li>
+<p>Multi-Turn Consistency</p>
+<ul>
+<li>使用了 <code>GAtt</code> (ghost attention) 解決多輪對話會遺忘 instruction prompt 的問題, 這個 idea 參考了 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2212.08073">Context Distillation</a> 的想法</li>
+<li>作法為擷取部分的多輪對話數據, 來產生新的 fine-tune 資料</li>
+</ul>
+</li>
+</ul>
+<h2 id="conclusion"><a class="markdownIt-Anchor" href="#conclusion"></a> Conclusion</h2>
+<ul>
+<li>此篇論文主要介紹 LLaMA 2 - chat 的訓練過程, 雖然預測表現尚且不如 ChatGPT, 但已有相同甚至更好的訓練方法和架構, 相信隨著訓練資料的加入會越來越接近</li>
+<li>LLaMA 2 在中文使用上還是非常不又善 (pre-train 資料: 英文占 89.7 %, 中文 0.13%), 論文中提到的原因是因為非英語公開資料取得不易, 想要在中文領域應用需要一定量級的中文 pre-train, 可關注 <a target="_blank" rel="noopener" href="https://github.com/ymcui/Chinese-LLaMA-Alpaca-2">Chinese LLaMA 2 </a></li>
+<li>隨著開源 LLM 的普及 training 相關技術沒有太多的未知變數, 可以開始研究如何加速 inference 速度以及與 retrieval 方法作結合</li>
+</ul>
+
+
+
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">較早文章</div><a href="/2023/07/10/20230711/">Focused Transformer – Contrastive Training for Context Scaling</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      參與討論
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="yifor01/blog-comments" data-repo-id="R_kgDOJUQBwQ" data-category="General" data-category-id="DIC_kwDOJUQBwc4CVoZ6" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-TW" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><center>
+</br>
+</br>
+  <!--不蒜子計數器-->
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <!--添加一個訪問量-->
+  <span>
+  本"<span style="color: rgb(13, 109, 252); font-weight: bold;">頁面</ a></span>"訪問 <span id="busuanzi_value_page_pv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 次
+  | 👀總訪問 <span id="busuanzi_value_site_pv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 次
+  | 🎎總訪客 <span id="busuanzi_value_site_uv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 人
+  </span>
+  </br>
+  </br>
+  <script type="text/javascript">
+  function show_runtime() {
+      window.setTimeout("show_runtime()", 1000);
+      X = new Date("4/07/2023 00:00:00");
+      Y = new Date();
+      T = (Y.getTime() - X.getTime());
+      M = 24 * 60 * 60 * 1000;
+      a = T / M;
+      A = Math.floor(a);
+      b = (a - A) * 24;
+      B = Math.floor(b);
+      c = (b - B) * 60;
+      C = Math.floor((b - B) * 60);
+      D = Math.floor((c - C) * 60);
+      runtime_span.innerHTML = "⏱️本站已運行 " + A + "天 " + B + "小時 " + C + "分 " + D + "秒"
+  }
+  show_runtime();
+  </script>
+  <span id="runtime_span"></span>
+</center>
+<hr />
+<p>本站由 <a href="/">@yifor</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主題創建。<br />
+本 Blog 所有文章除特別聲明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 許可協議，轉載請注明出處。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '剛剛',
+      min: '分鐘前',
+      hour: '小時前',
+      day: '天前',
+      month: '個月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
